@@ -1,4 +1,5 @@
-import fs from "fs";
+import fs from "fs/promises";
+import { existsSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { Buffer } from "node:buffer";
@@ -10,12 +11,12 @@ const CONTENT = "I am fresh and young";
 const create = async () => {
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
   const filePath = path.join(__dirname, DIR_NAME, FILE_NAME);
-  if (fs.existsSync(filePath)) {
+  if (existsSync(filePath)) {
     console.error("FS operation failed");
     return;
   }
   const data = Buffer.from(CONTENT);
-  return fs.promises.writeFile(filePath, data);
+  return fs.writeFile(filePath, data);
 };
 
 await create();
